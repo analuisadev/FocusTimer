@@ -1,15 +1,17 @@
-// ES6 Modules - Default Import
-import { controls } from "./controls.js" // Default Export
-import { timer } from './timer.js' // Named Export
+import { controls } from "./controls.js"
+import { timer } from './timer.js'
+import { sound }  from './sounds.js'
+import { 
+    btnPlay,
+    btnPause,
+    btnStop,
+    temporizer,
+    btnSoundOn,
+    btnSoundOff,
+    minutesDisplay,
+    secondsDisplay
+} from './elements.js'
 
-const btnPlay = document.querySelector('.play')
-const btnPause = document.querySelector('.pause')
-const btnStop = document.querySelector('.stop')
-const temporizer = document.querySelector('.temporizer')
-const minutesDisplay = document.querySelector('.minutes')
-const secondsDisplay = document.querySelector('.seconds')
-
-// Modulo
 const controlsDependences = controls({
     btnPlay,
     btnPause,
@@ -17,12 +19,13 @@ const controlsDependences = controls({
     temporizer
 })
 
-// Modulo
 const timerDependences = timer({
     minutesDisplay,
     secondsDisplay,
     resetControls: controlsDependences.reset,
 })
+
+const musicPlay = sound()
 
 btnPlay.addEventListener('click', () => startCounter())
 
@@ -30,6 +33,7 @@ const startCounter = () => {
     controlsDependences.play()
 
     timerDependences.countDown()
+    musicPlay.pressButton()
 }
 
 btnPause.addEventListener('click', () => pauseCounter())
@@ -38,6 +42,7 @@ const pauseCounter = () => {
     controlsDependences.pause()
 
     timerDependences.holdTime()
+    musicPlay.pressButton()
 }
 
 btnStop.addEventListener('click', () => stopTemporizer())
@@ -46,6 +51,7 @@ const stopTemporizer = () => {
     controlsDependences.reset()
 
     timerDependences.resetTimer()
+    musicPlay.pressButton()
 }
 
 temporizer.addEventListener('click', () => howManyMinutes())
@@ -60,4 +66,22 @@ const howManyMinutes = () => {
 
     timerDependences.updateTimerDisplay(newMinutes, 0)
     timerDependences.updateMinutes(newMinutes)
+}
+
+btnSoundOn.addEventListener('click', () => playSound())
+
+const playSound = () => {
+    btnSoundOn.classList.add('hide')
+    btnSoundOff.classList.remove('hide')
+ 
+    musicPlay.bgAudio.play()
+}
+
+btnSoundOff.addEventListener('click', () => stopSound())
+
+const stopSound = () => {
+    btnSoundOn.classList.remove('hide')
+    btnSoundOff.classList.add('hide')
+
+    musicPlay.bgAudio.pause()
 }

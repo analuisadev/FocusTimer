@@ -1,4 +1,5 @@
-// Factory
+import { sound } from './sounds.js'
+
 export const timer = ({
     minutesDisplay,
     secondsDisplay,
@@ -34,6 +35,8 @@ export const timer = ({
             if( isFinished ) {
                 resetControls()
                 updateTimerDisplay()
+                
+                sound().playSoundEnd()
                 return
             }
             
