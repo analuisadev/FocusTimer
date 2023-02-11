@@ -27,9 +27,10 @@ export const controls = ({
     }
 
     const getMinutes = () => {
-        let newMinutes = prompt( ' Quantos minutos? ' )
+        let newMinutes = parseInt(prompt( ' Quantos minutos? ' ))
 
-        if(!newMinutes) {
+        if(!newMinutes || isNaN(newMinutes)) {
+            alert('Insira as informações corretamente')
             return false
         }
 
